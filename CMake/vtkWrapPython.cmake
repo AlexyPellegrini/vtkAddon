@@ -189,7 +189,7 @@ if(VTK_WRAP_PYTHON_FIND_LIBS)
   else()
     set(_QUIET_LIBRARY "REQUIRED")
   endif()
-  find_package(Python3 COMPONENTS Development ${_QUIET_LIBRARY})
+  find_package(Python3 COMPONENTS Development.Module ${_QUIET_LIBRARY})
 
   # Use separate debug/optimized libraries if they are different.
   if(PYTHON_DEBUG_LIBRARY)
@@ -224,7 +224,7 @@ if(VTK_WRAP_PYTHON_FIND_LIBS)
   endif()
 
   # Include any extra libraries for python.
-  set(VTK_Python3_LIBRARIES ${VTK_Python3_LIBRARIES} ${PYTHON_EXTRA_LIBS})
+ # set(VTK_Python3_LIBRARIES ${VTK_Python3_LIBRARIES} ${PYTHON_EXTRA_LIBS})
 endif()
 
 # Determine the location of the supplied header in the include_dirs supplied.
