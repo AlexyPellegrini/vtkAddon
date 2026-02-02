@@ -157,14 +157,6 @@ set_source_files_properties(
   vtkLoggingMacros.h
   WRAP_EXCLUDE
   )
-# --------------------------------------------------------------------------
-# Include dirs
-# --------------------------------------------------------------------------
-set(include_dirs
-  ${CMAKE_CURRENT_SOURCE_DIR}
-  ${CMAKE_CURRENT_BINARY_DIR}
-  )
-include_directories(BEFORE ${include_dirs})
 
 # --------------------------------------------------------------------------
 # Build library
@@ -175,6 +167,10 @@ set(srcs ${vtkAddon_SRCS})
 add_library(${lib_name} ${srcs})
 
 target_link_libraries(${lib_name} ${vtkAddon_LIBS})
+target_include_directories(${lib_name} BEFORE PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
+)
 
 # --------------------------------------------------------------------------
 # Folder
@@ -194,7 +190,7 @@ endif()
 if(NOT DEFINED ${PROJECT_NAME}_EXPORT_FILE)
   set(${PROJECT_NAME}_EXPORT_FILE ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Targets.cmake)
 endif()
-export(TARGETS ${lib_name} APPEND FILE ${${PROJECT_NAME}_EXPORT_FILE})
+export(TARGETS ${lib_name} FILE ${${PROJECT_NAME}_EXPORT_FILE})
 
 # --------------------------------------------------------------------------
 # Install library
