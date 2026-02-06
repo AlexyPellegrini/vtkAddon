@@ -21,7 +21,11 @@ include(vtkAddonFunctionAddExecutable)
 #
 # VTK
 #
-find_package(VTK REQUIRED)
+set(vtkAddon_VTK_COMPONENTS RenderingOpenGL2 RenderingVolumeOpenGL2)
+if(vtkAddon_WRAP_PYTHON)
+  list(APPEND vtkAddon_VTK_COMPONENTS Python)
+endif()
+find_package(VTK REQUIRED COMPONENTS ${vtkAddon_VTK_COMPONENTS})
 if(${VTK_VERSION} VERSION_LESS "8.90")
   include(${VTK_USE_FILE})
 endif()
@@ -88,6 +92,8 @@ endif()
 # Sources
 # --------------------------------------------------------------------------
 set(vtkAddon_SRCS
+  vtkAddon.h
+  ${CMAKE_CURRENT_BINARY_DIR}/${configure_header_file}
   vtkAddonMathUtilities.cxx
   vtkAddonMathUtilities.h
   vtkAddonSetGet.h
@@ -170,6 +176,7 @@ target_link_libraries(${lib_name} ${vtkAddon_LIBS})
 target_include_directories(${lib_name} BEFORE PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
   $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
+  $<INSTALL_INTERFACE:include>
 )
 
 # --------------------------------------------------------------------------
@@ -203,6 +210,7 @@ if(NOT DEFINED ${PROJECT_NAME}_INSTALL_LIB_DIR)
 endif()
 
 install(TARGETS ${lib_name}
+  EXPORT vtkAddonTargets
   RUNTIME DESTINATION ${${PROJECT_NAME}_INSTALL_BIN_DIR} COMPONENT RuntimeLibraries
   LIBRARY DESTINATION ${${PROJECT_NAME}_INSTALL_LIB_DIR} COMPONENT RuntimeLibraries
   ARCHIVE DESTINATION ${${PROJECT_NAME}_INSTALL_LIB_DIR} COMPONENT Development
@@ -288,6 +296,18 @@ endif()
 # Install vtkAddonConfig.cmake
 install(
   FILES ${CMAKE_CURRENT_BINARY_DIR}/install/vtkAddonConfig.cmake
+  DESTINATION ${${PROJECT_NAME}_INSTALL_CMAKE_DIR}
+  )
+
+# Install vtkAddon headers, uses a pattern because they are not explicitely listed
+list(FILTER vtkAddon_SRCS INCLUDE REGEX ".*\\.h$")
+install(FILES ${vtkAddon_SRCS}
+  DESTINATION include
+  )
+
+install(
+  EXPORT vtkAddonTargets
+  FILE ${PROJECT_NAME}Targets.cmake
   DESTINATION ${${PROJECT_NAME}_INSTALL_CMAKE_DIR}
   )
 
