@@ -1,10 +1,10 @@
-include("${CMAKE_CURRENT_BINARY_DIR}/vtkAddonTargets.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/vtkAddonTargets.cmake")
 
 include(CMakeFindDependencyMacro)
 find_dependency(VTK COMPONENTS @vtkAddon_VTK_COMPONENTS@)
 set(vtkAddon_USE_UTF8 "@vtkAddon_USE_UTF8@")
 
 set(vtkAddon_CMAKE_DIR "${CMAKE_CURRENT_LIST_DIR}")
-set(vtkAddon_INCLUDE_DIRS "${CMAKE_CURRENT_LIST_DIR}/include")
-set(vtkAddon_LIB_DIR "${CMAKE_CURRENT_LIST_DIR}/lib")
+set(vtkAddon_INCLUDE_DIRS "${CMAKE_CURRENT_LIST_DIR}/../../../include")
+set(vtkAddon_LIB_DIR "${CMAKE_CURRENT_LIST_DIR}/../../vtkAddon")
 
