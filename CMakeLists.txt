@@ -94,6 +94,8 @@ endif()
 set(vtkAddon_SRCS
   vtkAddon.h
   ${CMAKE_CURRENT_BINARY_DIR}/${configure_header_file}
+  vtkAddonExport.h
+  vtkAddonTestingMacros.h
   vtkAddonMathUtilities.cxx
   vtkAddonMathUtilities.h
   vtkAddonSetGet.h
@@ -302,7 +304,7 @@ install(
   )
 
 # Install vtkAddon headers, uses a pattern because they are not explicitely listed
-list(FILTER vtkAddon_SRCS INCLUDE REGEX ".*\\.h$")
+list(FILTER vtkAddon_SRCS INCLUDE REGEX ".*\\.(h|txx)$")
 install(FILES ${vtkAddon_SRCS}
   DESTINATION include
   )
