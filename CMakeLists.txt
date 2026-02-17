@@ -276,12 +276,14 @@ set(${PROJECT_NAME}_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BIN
 configure_file(
   ${CMAKE_CURRENT_SOURCE_DIR}/vtkAddonConfig.cmake.in
   ${CMAKE_CURRENT_BINARY_DIR}/vtkAddonConfig.cmake
+  @ONLY
   )
 
 # Configuret vtkAddonConfig.cmake for an install tree
 configure_file(
   ${CMAKE_CURRENT_SOURCE_DIR}/vtkAddonInstallConfig.cmake.in
   ${CMAKE_CURRENT_BINARY_DIR}/install/vtkAddonConfig.cmake
+  @ONLY
   )
 
 # --------------------------------------------------------------------------
